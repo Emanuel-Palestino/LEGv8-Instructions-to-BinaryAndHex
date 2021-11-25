@@ -1,0 +1,19 @@
+* {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-family: sans-serif;
+	box-sizing: border-box;
+}
+
+header {
+	display: block;
+	width: 100%;
+	background-color: aqua;
+	padding: 16px;
+
+	h1 {
+		display: block;
+		text-align: center;
+	}
+}
