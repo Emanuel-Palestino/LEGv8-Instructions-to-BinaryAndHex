@@ -1,3 +1,9 @@
+$bgColor : #1a1b26;
+$bgColorFocused: #1e202e;
+$textColor : #8da0c4;
+$textcolorFocused : #395696;
+$btnColor: #3d59a1;
+
 * {
 	margin: 0;
 	padding: 0;
@@ -9,7 +15,6 @@
 header {
 	display: block;
 	width: 100%;
-	background-color: aqua;
 	padding: 16px;
 
 	h1 {
@@ -21,22 +26,79 @@ header {
 #contenido {
 	width: 100%;
 	background-color: aquamarine;
+	height: calc(100vmin - 68px - 20px);
+	display: flex;
 
 	#codigo {
 		width: 45%;
-		background-color: azure;
+		height: 100%;
 
-		textarea {
-			display: block;
+		#editor {
 			width: 100%;
-			height: 500px;
-			background-color: #252526;
-			padding: 10px;
-			outline: none;
-			border: none;
-			resize: none;
-			font-size: 24px;
-			color: #ccc;
+			height: 100%;
+
+			.CodeMirror {
+				height: 100%;
+				background-color: $bgColor;
+				color: $textColor;
+				font-size: 24px;
+
+				&-cursor {
+					border-left: 1px solid white;
+				}
+
+				&-line {
+					padding-left: 16px;
+				}
+
+				&-gutters {
+					background-color: $bgColor;
+				}
+
+				&-linenumber {
+					font-size: 16px;
+					top: 5px;
+				}
+
+				.line-focused {
+					background-color: $bgColorFocused;
+				}
+
+				.linenumber-focused {
+					color: $textcolorFocused;
+				}
+
+			}
 		}
+	}
+
+	#acciones {
+		width: 100px;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+
+		button {
+			display: block;
+			background-color: $btnColor;
+			cursor: pointer;
+			margin-bottom: 16px;
+			color: white;
+			padding: 16px 4px 16px 4px;
+			text-align: center;
+			border: none;
+			outline: none;
+
+			&:hover {
+				background-color: #2d4374;
+				transition: all 200ms;
+			}
+		}
+	}
+
+	#resultado  {
+		width: calc(55% - 100px);
+		height: 100%;
 	}
 }
