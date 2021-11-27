@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<title>LEGv8Compiler</title>
+	<link rel="stylesheet" href="styles/dist/codemirror.css">
 	<link rel="stylesheet" href="styles/dist/style.css">
 </head>
+
 <body>
 	<header>
 		<h1>Convertir instrucciones LEGv8 a Binario y Hexadecimal</h1>
@@ -14,10 +17,27 @@
 
 	<div id="contenido">
 		<section id="codigo">
-			<textarea id="fuente"></textarea>
-		</section>
-	<div/>
+			<div id="editor">
 
-	<script src="scripts/dist/main.js"></script>
+			</div>
+		</section>
+		<section id="acciones">
+			<button>Convertir</button>
+			<button>Limpiar</button>
+			<button>Guardar Código</button>
+			<button>Guardar Hexadecimal</button>
+			<button>Guardar Binario</button>
+			<button>Información</button>
+		</section>
+		<section id="resultado">
+
+		</section>
+	</div>
+
+		<script src="scripts/dist/jquery-3.6.0.min.js"></script>
+		<script src="scripts/dist/codemirror.js"></script>
+		<script src="scripts/dist/shell.js"></script>
+		<script src="scripts/dist/principal.js"></script>
 </body>
+
 </html>
