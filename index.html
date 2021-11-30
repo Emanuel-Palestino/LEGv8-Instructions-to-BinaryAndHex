@@ -8,6 +8,7 @@
 	<title>LEGv8Compiler</title>
 	<link rel="stylesheet" href="styles/dist/codemirror.css">
 	<link rel="stylesheet" href="styles/dist/style.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 </head>
 
 <body>
@@ -22,22 +23,56 @@
 			</div>
 		</section>
 		<section id="acciones">
-			<button>Convertir</button>
-			<button>Limpiar</button>
-			<button>Guardar Código</button>
-			<button>Guardar Hexadecimal</button>
-			<button>Guardar Binario</button>
-			<button>Información</button>
+
+			<div class="grupo-botones">
+				<button id="compilar">Convertir</button>
+				<button>Limpiar</button>
+			</div>
+			<div class="grupo-botones">
+				<button>Guardar Código</button>
+				<button>Guardar Hexadecimal</button>
+				<button>Guardar Binario</button>
+			</div>
+			<div class="grupo-botones">
+				<button>Información</button>
+			</div>
 		</section>
 		<section id="resultado">
+			<div id="resultado_bin" class="resultados">
+				<div class="instruccion">
+					<span class="numero-instruccion">2 -</span>
+					<span class="valor codigo-operacion">00001111</span>
+					<span class="codigo-operacion">00001111</span>
+					<span class="codigo-operacion">0000</span>
+					<span class="codigo-operacion">1111</span>
+					<span class="codigo-operacion">00001111</span>
+					<button class="boton-copiar">
+						<span class="material-icons-round">
+							content_copy
+						</span>
+					</button>
+				</div>
+			</div>
 
+			<div id="resultado_hex" class="resultados">
+				<div class="instruccion">
+					<span class="numero-instruccion">2 -</span>
+					<span>FFFFFFFF</span>
+					<button class="boton-copiar">
+						<span class="material-icons-round">
+							content_copy
+						</span>
+					</button>
+				</div>
+			</div>
 		</section>
 	</div>
 
-		<script src="scripts/dist/jquery-3.6.0.min.js"></script>
-		<script src="scripts/dist/codemirror.js"></script>
-		<script src="scripts/dist/shell.js"></script>
-		<script src="scripts/dist/principal.js"></script>
+	<script src="scripts/dist/jquery-3.6.0.min.js"></script>
+	<script src="scripts/dist/codemirror.js"></script>
+	<script src="scripts/dist/shell.js"></script>
+	<script src="scripts/dist/principal.js"></script>
+	<script src="scripts/dist/convertidor.js"></script>
 </body>
 
 </html>
