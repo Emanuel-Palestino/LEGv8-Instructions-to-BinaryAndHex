@@ -1,45 +1,79 @@
+import { InstruccionTipoD } from './class/InstruccionTipoD.js'
+import { InstruccionTipoR } from './class/InstruccionTipoR.js'
+import { InstruccionTipoI } from './class/InstruccionTipoI.js'
+import { Instruccion } from './class/Instruccion.js'
+
 // CodeMirror variable
 declare var myCode: any
 
+// enums
+enum tipoInstruccion {
+	BTYPE = 1,
+	CBTYPE,
+	RTYPE,
+	DTYPE,
+	ITYPE
+}
+
 // Metodo para convertir
 $('#compilar').on('click', () => {
-	let contenidoCodigo: String = myCode.getValue()
-	let lineasCodigo: String[] = contenidoCodigo.split('\n')
+
+	let instrucciones: Instruccion[] = []
+
+	let contenidoCodigo: string = myCode.getValue()
+	let lineasCodigo: string[] = contenidoCodigo.split('\n')
+	let divInstruccionesBin = $('#resultado_bin')
+	divInstruccionesBin.empty()
 
 	lineasCodigo.forEach((linea, index) => {
-		let divInstruccionesBin = $('#resultado_bin')
+
 		let indexPrimerEspacio = linea.indexOf(' ')
-		let instruccion: String = linea.substring(0, indexPrimerEspacio).trim()
-		let parametros: String[] = linea.substring(indexPrimerEspacio + 1).split(',')
-		let registros: String[] = []
+		let instruccion: string = linea.substring(0, indexPrimerEspacio).trim().toLowerCase()
+		let parametros: string = linea.substring(indexPrimerEspacio + 1)
 
-		parametros.forEach(registro => {
-			let reg: String = registro.trim()
-			reg = reg.replace(/x|X/, '')
-			registros.push(reg)
-		})
+		switch(tipoDeInstruccion(instruccion)) {
+			case tipoInstruccion.DTYPE:
+				instrucciones.push(new InstruccionTipoD(instruccion, parametros))
+				divInstruccionesBin.append(instrucciones[index].crearHTML(index + 1))
+				break
+			case tipoInstruccion.RTYPE:
+				instrucciones.push(new InstruccionTipoR(instruccion, parametros))
+				divInstruccionesBin.append(instrucciones[index].crearHTML(index + 1))
+				break
+			case tipoInstruccion.ITYPE:
+				instrucciones.push(new InstruccionTipoI(instruccion, parametros))
+				divInstruccionesBin.append(instrucciones[index].crearHTML(index + 1))
+				break
+		}
 
-		// Convertir instruccion a binario
-		// Número de instruccion
-		let numInstruccion: Number = index + 1
-		divInstruccionesBin.append(`<span class="numero-instruccion">${numInstruccion} -</span>`)
-
-		// Codigo de operacion
-		let bin = instruccionABin(instruccion)
-		divInstruccionesBin.append(`<span class="valor codigo-operacion">${bin}</span>`)
-
-
-		console.log(instruccion, registros)
 	})
 })
 
-function instruccionABin(instruccion: String): String {
+function tipoDeInstruccion(instruccion: string) : tipoInstruccion {
 	switch (instruccion) {
 		case 'add':
-		case 'ADD':
-			return '0000111101'
+		case 'sub':
+		case 'lsl':
+		case 'lsr':
+			return tipoInstruccion.RTYPE
+			break;
+		case 'stur':
+		case 'ldur':
+			return tipoInstruccion.DTYPE
+			break
+		case 'addi':
+		case 'subi':
+			return tipoInstruccion.ITYPE
+			break
+		case 'b':
+		case 'bl':
+			return tipoInstruccion.BTYPE
+			break
+		case 'cbz':
+		case 'cbnz':
+			return tipoInstruccion.CBTYPE
 			break
 		default:
-			return '0'
+			return 0
 	}
 }
