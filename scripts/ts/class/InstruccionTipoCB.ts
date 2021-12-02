@@ -1,8 +1,9 @@
 import { Instruccion } from "./Instruccion.js";
 import { numABinario, instruccionABin } from "../funciones.js";
 
-export class InstruccionTipoR extends Instruccion {
+export class InstruccionTipoCB extends Instruccion {
 	private valores: number[] = []
+	private etiqueta: string
 
 	constructor(instruccion: string, parametros: string) {
 		super(instruccion, parametros)
@@ -10,24 +11,17 @@ export class InstruccionTipoR extends Instruccion {
 		let parametrosAux: string = this.parametros.trim()
 		let parametrosIndividuales: string[] = parametrosAux.split(',')
 
-		// Valor 1
+		// Valor 1 (Registro a comparar)
 		let valor1: number = parseInt(parametrosIndividuales[0].replace(/x|X/, ''))
 		this.valores.push(valor1)
 
-		// Valor 2
-		if (parametrosIndividuales[1] != undefined) {
-			let valor2: number = parseInt(parametrosIndividuales[1].replace(/x|X/, ''))
-			this.valores.push(valor2)
-		} else
-			this.valores.push(0)
+		// Valor 2 (Etiqueta al que saltará)
+		this.etiqueta = parametrosIndividuales[1].trim()
+		
+	}
 
-		// Valor 3
-		if (parametrosIndividuales[2] != undefined) {
-			let valor3: number = parseInt(parametrosIndividuales[2].replace(/x|X/, ''))
-			this.valores.push(valor3)
-		} else
-			this.valores.push(0)
-
+	getEtiqueta(): string {
+		return this.etiqueta
 	}
 
 	crearHTMLBin(linea: number): JQuery<HTMLElement> {
@@ -42,21 +36,19 @@ export class InstruccionTipoR extends Instruccion {
 		let instruccionBin = instruccionABin(this.instruccion)
 		divInstruccion.append(`<span class="valor codigo-operacion">${instruccionBin}</span>`)
 
-		// Segundo parametro
-		divInstruccion.append(`<span class="valor parametro-2">${numABinario(this.valores[2], 5)}</span>`)
+		// Segundo parametro (Valor relativo de la etiqueta)
+		divInstruccion.append(`<span class="valor parametro-2">${numABinario(this.valores[1], 19)}</span>`)
 
-		// Parametro vacio
-		divInstruccion.append(`<span class="valor parametro-vacio">000000</span>`)
-
-		// Primer parametro
-		divInstruccion.append(`<span class="valor parametro-1">${numABinario(this.valores[1], 5)}</span>`)
-
-		// A donde se irá el resultado
-		divInstruccion.append(`<span class="valor parametro-destino">${numABinario(this.valores[0], 5)}</span>`)
+		// Primer parametro (Registro a comparar)
+		divInstruccion.append(`<span class="valor parametro-1">${numABinario(this.valores[0], 5)}</span>`)
 
 		// Agregar boton para copiar linea
 		divInstruccion.append(`<button class="boton-copiar"><span class="material-icons-round">content_copy</span></button>`)
 
 		return divInstruccion
+	}
+
+	calcularValorEtiqueta(lineaInstruccion: number, lineaEtiqueta: number) {
+		this.valores.push(lineaEtiqueta - lineaInstruccion)
 	}
 }

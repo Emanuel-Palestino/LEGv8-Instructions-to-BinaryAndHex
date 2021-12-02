@@ -20,15 +20,52 @@ export function instruccionABin(instruccion) {
             break;
         case 'lsl':
             return '11010011011';
+        case 'lsr':
+            return '11010011010';
+        case 'b':
+            return '000101';
+        case 'bl':
+            return '100101';
+        case 'br':
+            return '11010110000';
+        case 'cbnz':
+            return '10110101';
+        case 'cbz':
+            return '10110100';
         default:
             return '0';
     }
 }
 export function numABinario(numero, tamaño) {
-    // Obtener binario
-    let binario = numero.toString(2);
-    // Rellenar de 0 si es necesario
-    let ceros = '0'.repeat(tamaño - binario.length);
-    binario = ceros + binario;
+    let binario = '';
+    // Saber si es negativo o positivo
+    if (Math.sign(numero) >= 0) { // positivo
+        // Obtener binario
+        binario = numero.toString(2);
+        // Rellenar de 0 si es necesario
+        let ceros = '0'.repeat(tamaño - binario.length);
+        binario = ceros + binario;
+    }
+    else { // negativo
+        let numPositivo = numero * -1;
+        let binarioAux = numPositivo.toString(2);
+        let ceros = '0'.repeat(tamaño - binarioAux.length);
+        binarioAux = ceros + binarioAux;
+        // Complemento a 2
+        for (let i = 0; i < tamaño; i++) { // Negar todo
+            if (binarioAux.charAt(i) == '1')
+                binario += '0';
+            else
+                binario += '1';
+        }
+        // sumarle 1
+        let numNegado = parseInt(binario, 2);
+        numNegado += 1;
+        // Obtener binario
+        binario = numNegado.toString(2);
+    }
     return binario;
+}
+export function numAHexadecimal(numero) {
+    return numero.toString(16);
 }

@@ -24,7 +24,7 @@ export class InstruccionTipoI extends Instruccion {
 		
 	}
 
-	crearHTML(linea: number): JQuery<HTMLElement> {
+	crearHTMLBin(linea: number): JQuery<HTMLElement> {
 		let divInstruccion = $('<div>', {
 			class: 'instruccion'
 		})

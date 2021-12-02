@@ -11,13 +11,21 @@ export class InstruccionTipoR extends Instruccion {
         let valor1 = parseInt(parametrosIndividuales[0].replace(/x|X/, ''));
         this.valores.push(valor1);
         // Valor 2
-        let valor2 = parseInt(parametrosIndividuales[1].replace(/x|X/, ''));
-        this.valores.push(valor2);
+        if (parametrosIndividuales[1] != undefined) {
+            let valor2 = parseInt(parametrosIndividuales[1].replace(/x|X/, ''));
+            this.valores.push(valor2);
+        }
+        else
+            this.valores.push(0);
         // Valor 3
-        let valor3 = parseInt(parametrosIndividuales[2].replace(/x|X/, ''));
-        this.valores.push(valor3);
+        if (parametrosIndividuales[2] != undefined) {
+            let valor3 = parseInt(parametrosIndividuales[2].replace(/x|X/, ''));
+            this.valores.push(valor3);
+        }
+        else
+            this.valores.push(0);
     }
-    crearHTML(linea) {
+    crearHTMLBin(linea) {
         let divInstruccion = $('<div>', {
             class: 'instruccion'
         });

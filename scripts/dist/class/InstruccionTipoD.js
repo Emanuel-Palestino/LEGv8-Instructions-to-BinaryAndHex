@@ -17,7 +17,7 @@ export class InstruccionTipoD extends Instruccion {
         let valor3 = parseInt(parametrosIndividuales[2].replace(/#|]/, ''));
         this.valores.push(valor3);
     }
-    crearHTML(linea) {
+    crearHTMLBin(linea) {
         let divInstruccion = $('<div>', {
             class: 'instruccion'
         });
