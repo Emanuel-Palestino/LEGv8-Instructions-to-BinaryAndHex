@@ -121,6 +121,8 @@ header h1 {
 }
 #contenido #resultado .resultados .instruccion {
   display: flex;
+  width: 600px;
+  justify-content: space-between;
   gap: 8px;
   margin-bottom: 8px;
 }
@@ -153,6 +155,9 @@ header h1 {
 }
 #contenido #resultado .resultados .instruccion > span:first-child {
   width: 40px;
+}
+#contenido #resultado #resultado_hex .instruccion {
+  width: 400px;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -9,10 +9,10 @@ export class Instruccion {
     getInstruccion() {
         return this.instruccion;
     }
-    getInstruccionesBin() {
+    getInstruccionBin() {
         return this.instruccionBin;
     }
-    getInstruccionesHex() {
+    getInstruccionHex() {
         return this.instruccionHexa;
     }
     crearHTMLBin(linea) {

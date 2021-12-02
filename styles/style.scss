@@ -146,6 +146,8 @@ header {
 
 			.instruccion {
 				display: flex;
+				width: 600px;
+				justify-content: space-between;
 				gap: 8px;
 				margin-bottom: 8px;
 
@@ -186,5 +188,12 @@ header {
 				}
 			}
 		}
+		
+		#resultado_hex {
+			.instruccion {
+				width: 400px;
+			}
+		}
+
 	}
 }

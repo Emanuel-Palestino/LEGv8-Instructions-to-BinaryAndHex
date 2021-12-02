@@ -17,28 +17,32 @@ enum tipoInstruccion {
 	ITYPE
 }
 
+let divInstruccionesBin = $('#resultado_bin')
+let divInstruccionesHex = $('#resultado_hex')
+let botonGuardarBin = $('#guardar_binario')
+let botonGuardarHex = $('#guardar_hexadecimal')
+
+// Contenido para los archivos
+let contenidoArchivoBin = ''
+let contenidoArchivoHex = ''
+
+let instrucciones: Instruccion[] = []
+
+
 // Metodo para convertir
 $('#compilar').on('click', () => {
 
-	let instrucciones: Instruccion[] = []
+	instrucciones = []
 	let contenidoCodigo: string = myCode.getValue()
 
 	let lineasCodigo: string[] = contenidoCodigo.split('\n')
 	let etiquetas: { id: string; linea: number }[] = []
 
-	let divInstruccionesBin = $('#resultado_bin')
-	let divInstruccionesHex = $('#resultado_hex')
-	let botonGuardarBin = $('#guardar_binario')
-	let botonGuardarHex = $('#guardar_hexadecimal')
 	divInstruccionesBin.empty()
 	divInstruccionesHex.empty()
 
-	// Contenido para los archivos
-	let contenidoArchivoBin = ''
-	let contenidoArchivoHex = ''
-
 	// Encontrar etiquetas
-	for (let index = 0; index < lineasCodigo.length; index ++){
+	for (let index = 0; index < lineasCodigo.length; index++) {
 		// saber si existe una etiqueta
 		lineasCodigo[index] = lineasCodigo[index].trim()
 		let indexDosPuntos = lineasCodigo[index].indexOf(':')
@@ -66,7 +70,7 @@ $('#compilar').on('click', () => {
 		let parametros: string = linea.substring(indexPrimerEspacio + 1)
 
 		// Mostrar instruciones
-		switch(tipoDeInstruccion(instruccion)) {
+		switch (tipoDeInstruccion(instruccion)) {
 			case tipoInstruccion.DTYPE:
 				instrucciones.push(new InstruccionTipoD(instruccion, parametros))
 				divInstruccionesBin.append(instrucciones[index].crearHTMLBin(index + 1))
@@ -115,26 +119,26 @@ $('#compilar').on('click', () => {
 		}
 
 		// Concatenar contenido del Archivo en codigo VHDL
-		contenidoArchivoBin += `"${instrucciones[index].getInstruccionesBin()}",\t--${instruccion} ${parametros}\n`
-		contenidoArchivoHex += `x"${instrucciones[index].getInstruccionesHex()}",\t--${instruccion} ${parametros}\n`
+		contenidoArchivoBin += `"${instrucciones[index].getInstruccionBin()}",\t--${instruccion} ${parametros}\n`
+		contenidoArchivoHex += `x"${instrucciones[index].getInstruccionHex()}",\t--${instruccion} ${parametros}\n`
 
 	})
 
 	// Crear fichero con instrucciones bin
-	let fileBin = new File([contenidoArchivoBin], 'InstruccionesBinarioVHDL.txt', {type: 'text/plain;charset=utf-8'})
+	let fileBin = new File([contenidoArchivoBin], 'InstruccionesBinarioVHDL.txt', { type: 'text/plain;charset=utf-8' })
 	let urlBin = window.URL.createObjectURL(fileBin)
 	botonGuardarBin.attr('href', urlBin)
 	botonGuardarBin.attr('download', fileBin.name)
 
 	// Crear fichero con instrucciones bin
-	let fileHex = new File([contenidoArchivoHex], 'InstruccionesHexadecimalVHDL.txt', {type: 'text/plain;charset=utf-8'})
+	let fileHex = new File([contenidoArchivoHex], 'InstruccionesHexadecimalVHDL.txt', { type: 'text/plain;charset=utf-8' })
 	let urlHex = window.URL.createObjectURL(fileHex)
 	botonGuardarHex.attr('href', urlHex)
 	botonGuardarHex.attr('download', fileHex.name)
 
 })
 
-function tipoDeInstruccion(instruccion: string) : tipoInstruccion {
+function tipoDeInstruccion(instruccion: string): tipoInstruccion {
 	switch (instruccion) {
 		case 'add':
 		case 'sub':
@@ -163,3 +167,30 @@ function tipoDeInstruccion(instruccion: string) : tipoInstruccion {
 			return 0
 	}
 }
+
+
+// Copiar contenido Individuamente Binarios
+$('#resultado_bin').on('click', '.boton-copiar', (element) => {
+	let boton = $(element.currentTarget)
+	let divInstruccion = boton.parent()
+	let indexInstruccion = $('#resultado_bin .instruccion').index(divInstruccion[0])
+	navigator.clipboard.writeText(instrucciones[indexInstruccion].getInstruccionBin())
+	.then(() => {
+		console.log('Copiado')
+	}).catch(error => {
+		console.log('Error al copiar')
+	})
+})
+
+// Copiar contenido Individuamente Hexadecimal
+$('#resultado_hex').on('click', '.boton-copiar', (element) => {
+	let boton = $(element.currentTarget)
+	let divInstruccion = boton.parent()
+	let indexInstruccion = $('#resultado_hex .instruccion').index(divInstruccion[0])
+	navigator.clipboard.writeText(instrucciones[indexInstruccion].getInstruccionHex())
+	.then(() => {
+		console.log('Copiado')
+	}).catch(error => {
+		console.log('Error al copiar')
+	})
+})

@@ -12,21 +12,22 @@ var tipoInstruccion;
     tipoInstruccion[tipoInstruccion["DTYPE"] = 4] = "DTYPE";
     tipoInstruccion[tipoInstruccion["ITYPE"] = 5] = "ITYPE";
 })(tipoInstruccion || (tipoInstruccion = {}));
+let divInstruccionesBin = $('#resultado_bin');
+let divInstruccionesHex = $('#resultado_hex');
+let botonGuardarBin = $('#guardar_binario');
+let botonGuardarHex = $('#guardar_hexadecimal');
+// Contenido para los archivos
+let contenidoArchivoBin = '';
+let contenidoArchivoHex = '';
+let instrucciones = [];
 // Metodo para convertir
 $('#compilar').on('click', () => {
-    let instrucciones = [];
+    instrucciones = [];
     let contenidoCodigo = myCode.getValue();
     let lineasCodigo = contenidoCodigo.split('\n');
     let etiquetas = [];
-    let divInstruccionesBin = $('#resultado_bin');
-    let divInstruccionesHex = $('#resultado_hex');
-    let botonGuardarBin = $('#guardar_binario');
-    let botonGuardarHex = $('#guardar_hexadecimal');
     divInstruccionesBin.empty();
     divInstruccionesHex.empty();
-    // Contenido para los archivos
-    let contenidoArchivoBin = '';
-    let contenidoArchivoHex = '';
     // Encontrar etiquetas
     for (let index = 0; index < lineasCodigo.length; index++) {
         // saber si existe una etiqueta
@@ -98,8 +99,8 @@ $('#compilar').on('click', () => {
                 break;
         }
         // Concatenar contenido del Archivo en codigo VHDL
-        contenidoArchivoBin += `"${instrucciones[index].getInstruccionesBin()}",\t--${instruccion} ${parametros}\n`;
-        contenidoArchivoHex += `x"${instrucciones[index].getInstruccionesHex()}",\t--${instruccion} ${parametros}\n`;
+        contenidoArchivoBin += `"${instrucciones[index].getInstruccionBin()}",\t--${instruccion} ${parametros}\n`;
+        contenidoArchivoHex += `x"${instrucciones[index].getInstruccionHex()}",\t--${instruccion} ${parametros}\n`;
     });
     // Crear fichero con instrucciones bin
     let fileBin = new File([contenidoArchivoBin], 'InstruccionesBinarioVHDL.txt', { type: 'text/plain;charset=utf-8' });
@@ -141,3 +142,27 @@ function tipoDeInstruccion(instruccion) {
             return 0;
     }
 }
+// Copiar contenido Individuamente Binarios
+$('#resultado_bin').on('click', '.boton-copiar', (element) => {
+    let boton = $(element.currentTarget);
+    let divInstruccion = boton.parent();
+    let indexInstruccion = $('#resultado_bin .instruccion').index(divInstruccion[0]);
+    navigator.clipboard.writeText(instrucciones[indexInstruccion].getInstruccionBin())
+        .then(() => {
+        console.log('Copiado');
+    }).catch(error => {
+        console.log('Error al copiar');
+    });
+});
+// Copiar contenido Individuamente Hexadecimal
+$('#resultado_hex').on('click', '.boton-copiar', (element) => {
+    let boton = $(element.currentTarget);
+    let divInstruccion = boton.parent();
+    let indexInstruccion = $('#resultado_hex .instruccion').index(divInstruccion[0]);
+    navigator.clipboard.writeText(instrucciones[indexInstruccion].getInstruccionHex())
+        .then(() => {
+        console.log('Copiado');
+    }).catch(error => {
+        console.log('Error al copiar');
+    });
+});

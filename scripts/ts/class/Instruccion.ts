@@ -16,11 +16,11 @@ export class Instruccion {
 		return this.instruccion
 	}
 
-	getInstruccionesBin(): string {
+	getInstruccionBin(): string {
 		return this.instruccionBin
 	}
 
-	getInstruccionesHex(): string {
+	getInstruccionHex(): string {
 		return this.instruccionHexa
 	}
 
