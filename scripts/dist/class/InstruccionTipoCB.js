@@ -25,10 +25,15 @@ export class InstruccionTipoCB extends Instruccion {
         // Codigo de operacion
         let instruccionBin = instruccionABin(this.instruccion);
         divInstruccion.append(`<span class="valor codigo-operacion">${instruccionBin}</span>`);
+        this.instruccionBin += instruccionBin;
         // Segundo parametro (Valor relativo de la etiqueta)
-        divInstruccion.append(`<span class="valor parametro-2">${numABinario(this.valores[1], 19)}</span>`);
+        let valorEtiqueta = numABinario(this.valores[1], 19);
+        divInstruccion.append(`<span class="valor parametro-2">${valorEtiqueta}</span>`);
+        this.instruccionBin += valorEtiqueta;
         // Primer parametro (Registro a comparar)
-        divInstruccion.append(`<span class="valor parametro-1">${numABinario(this.valores[0], 5)}</span>`);
+        let registroComparar = numABinario(this.valores[0], 5);
+        divInstruccion.append(`<span class="valor parametro-1">${registroComparar}</span>`);
+        this.instruccionBin += registroComparar;
         // Agregar boton para copiar linea
         divInstruccion.append(`<button class="boton-copiar"><span class="material-icons-round">content_copy</span></button>`);
         return divInstruccion;

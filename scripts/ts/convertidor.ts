@@ -21,12 +21,21 @@ enum tipoInstruccion {
 $('#compilar').on('click', () => {
 
 	let instrucciones: Instruccion[] = []
-
 	let contenidoCodigo: string = myCode.getValue()
+
 	let lineasCodigo: string[] = contenidoCodigo.split('\n')
 	let etiquetas: { id: string; linea: number }[] = []
+
 	let divInstruccionesBin = $('#resultado_bin')
+	let divInstruccionesHex = $('#resultado_hex')
+	let botonGuardarBin = $('#guardar_binario')
+	let botonGuardarHex = $('#guardar_hexadecimal')
 	divInstruccionesBin.empty()
+	divInstruccionesHex.empty()
+
+	// Contenido para los archivos
+	let contenidoArchivoBin = ''
+	let contenidoArchivoHex = ''
 
 	// Encontrar etiquetas
 	for (let index = 0; index < lineasCodigo.length; index ++){
@@ -56,18 +65,22 @@ $('#compilar').on('click', () => {
 		let instruccion: string = linea.substring(0, indexPrimerEspacio).trim().toLowerCase()
 		let parametros: string = linea.substring(indexPrimerEspacio + 1)
 
+		// Mostrar instruciones
 		switch(tipoDeInstruccion(instruccion)) {
 			case tipoInstruccion.DTYPE:
 				instrucciones.push(new InstruccionTipoD(instruccion, parametros))
 				divInstruccionesBin.append(instrucciones[index].crearHTMLBin(index + 1))
+				divInstruccionesHex.append(instrucciones[index].crearHTMLHex(index + 1))
 				break
 			case tipoInstruccion.RTYPE:
 				instrucciones.push(new InstruccionTipoR(instruccion, parametros))
 				divInstruccionesBin.append(instrucciones[index].crearHTMLBin(index + 1))
+				divInstruccionesHex.append(instrucciones[index].crearHTMLHex(index + 1))
 				break
 			case tipoInstruccion.ITYPE:
 				instrucciones.push(new InstruccionTipoI(instruccion, parametros))
 				divInstruccionesBin.append(instrucciones[index].crearHTMLBin(index + 1))
+				divInstruccionesHex.append(instrucciones[index].crearHTMLHex(index + 1))
 				break
 			case tipoInstruccion.CBTYPE:
 				let instruc: InstruccionTipoCB = new InstruccionTipoCB(instruccion, parametros)
@@ -82,6 +95,7 @@ $('#compilar').on('click', () => {
 
 				instrucciones.push(instruc)
 				divInstruccionesBin.append(instrucciones[index].crearHTMLBin(index + 1))
+				divInstruccionesHex.append(instrucciones[index].crearHTMLHex(index + 1))
 				break
 			case tipoInstruccion.BTYPE:
 				let instrucB: InstruccionTipoB = new InstruccionTipoB(instruccion, parametros)
@@ -96,10 +110,28 @@ $('#compilar').on('click', () => {
 
 				instrucciones.push(instrucB)
 				divInstruccionesBin.append(instrucciones[index].crearHTMLBin(index + 1))
+				divInstruccionesHex.append(instrucciones[index].crearHTMLHex(index + 1))
 				break
 		}
 
+		// Concatenar contenido del Archivo en codigo VHDL
+		contenidoArchivoBin += `"${instrucciones[index].getInstruccionesBin()}",\t--${instruccion} ${parametros}\n`
+		contenidoArchivoHex += `x"${instrucciones[index].getInstruccionesHex()}",\t--${instruccion} ${parametros}\n`
+
 	})
+
+	// Crear fichero con instrucciones bin
+	let fileBin = new File([contenidoArchivoBin], 'InstruccionesBinarioVHDL.txt', {type: 'text/plain;charset=utf-8'})
+	let urlBin = window.URL.createObjectURL(fileBin)
+	botonGuardarBin.attr('href', urlBin)
+	botonGuardarBin.attr('download', fileBin.name)
+
+	// Crear fichero con instrucciones bin
+	let fileHex = new File([contenidoArchivoHex], 'InstruccionesHexadecimalVHDL.txt', {type: 'text/plain;charset=utf-8'})
+	let urlHex = window.URL.createObjectURL(fileHex)
+	botonGuardarHex.attr('href', urlHex)
+	botonGuardarHex.attr('download', fileHex.name)
+
 })
 
 function tipoDeInstruccion(instruccion: string) : tipoInstruccion {

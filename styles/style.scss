@@ -11,6 +11,7 @@ $btnColor: #3d59a1;
 	list-style: none;
 	font-family: sans-serif;
 	box-sizing: border-box;
+	text-decoration: none;
 }
 
 header {
@@ -91,7 +92,7 @@ header {
 			width: 100%;
 			margin-bottom: 32px;
 
-			button {
+			button, a {
 				display: block;
 				width: 100%;
 				background-color: $btnColor;
@@ -102,6 +103,7 @@ header {
 				text-align: center;
 				border: none;
 				outline: none;
+				font-size: 14px;
 
 				&:hover {
 					background-color: #2d4374;

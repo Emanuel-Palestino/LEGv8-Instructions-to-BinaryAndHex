@@ -4,6 +4,7 @@
   list-style: none;
   font-family: sans-serif;
   box-sizing: border-box;
+  text-decoration: none;
 }
 
 header {
@@ -73,7 +74,7 @@ header h1 {
   width: 100%;
   margin-bottom: 32px;
 }
-#contenido #acciones .grupo-botones button {
+#contenido #acciones .grupo-botones button, #contenido #acciones .grupo-botones a {
   display: block;
   width: 100%;
   background-color: #3d59a1;
@@ -84,12 +85,13 @@ header h1 {
   text-align: center;
   border: none;
   outline: none;
+  font-size: 14px;
 }
-#contenido #acciones .grupo-botones button:hover {
+#contenido #acciones .grupo-botones button:hover, #contenido #acciones .grupo-botones a:hover {
   background-color: #2d4374;
   transition: all 200ms;
 }
-#contenido #acciones .grupo-botones button:active {
+#contenido #acciones .grupo-botones button:active, #contenido #acciones .grupo-botones a:active {
   transform: scale(0.9);
 }
 #contenido #resultado {

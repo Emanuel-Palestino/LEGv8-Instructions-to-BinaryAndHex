@@ -35,18 +35,26 @@ export class InstruccionTipoD extends Instruccion {
 		// Codigo de operacion
 		let instruccionBin = instruccionABin(this.instruccion)
 		divInstruccion.append(`<span class="valor codigo-operacion">${instruccionBin}</span>`)
+		this.instruccionBin += instruccionBin
 
 		// Segundo parametro
-		divInstruccion.append(`<span class="valor parametro-2">${numABinario(this.valores[2], 9)}</span>`)
+		let segundoParametro = numABinario(this.valores[2], 9)
+		divInstruccion.append(`<span class="valor parametro-2">${segundoParametro}</span>`)
+		this.instruccionBin += segundoParametro
 
 		// Parametro vacio
 		divInstruccion.append(`<span class="valor parametro-vacio">00</span>`)
+		this.instruccionBin += '00'
 
 		// Primer parametro
-		divInstruccion.append(`<span class="valor parametro-1">${numABinario(this.valores[1], 5)}</span>`)
+		let primerParametro = numABinario(this.valores[1], 5)
+		divInstruccion.append(`<span class="valor parametro-1">${primerParametro}</span>`)
+		this.instruccionBin += primerParametro
 
 		// A donde se irá el resultado
-		divInstruccion.append(`<span class="valor parametro-destino">${numABinario(this.valores[0], 5)}</span>`)
+		let destino = numABinario(this.valores[0], 5)
+		divInstruccion.append(`<span class="valor parametro-destino">${destino}</span>`)
+		this.instruccionBin += destino
 
 		// Agregar boton para copiar linea
 		divInstruccion.append(`<button class="boton-copiar"><span class="material-icons-round">content_copy</span></button>`)

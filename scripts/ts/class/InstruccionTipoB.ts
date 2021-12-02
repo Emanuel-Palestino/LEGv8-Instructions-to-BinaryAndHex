@@ -32,9 +32,12 @@ export class InstruccionTipoB extends Instruccion {
 		// Codigo de operacion
 		let instruccionBin = instruccionABin(this.instruccion)
 		divInstruccion.append(`<span class="valor codigo-operacion">${instruccionBin}</span>`)
+		this.instruccionBin += instruccionBin
 
 		// A donde saltará
-		divInstruccion.append(`<span class="valor parametro-destino">${numABinario(this.valores[0], 26)}</span>`)
+		let parametroDestino = numABinario(this.valores[0], 26)
+		divInstruccion.append(`<span class="valor parametro-destino">${parametroDestino}</span>`)
+		this.instruccionBin += parametroDestino
 
 		// Agregar boton para copiar linea
 		divInstruccion.append(`<button class="boton-copiar"><span class="material-icons-round">content_copy</span></button>`)
