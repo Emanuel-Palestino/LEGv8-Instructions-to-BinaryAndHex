@@ -21,6 +21,7 @@ let divInstruccionesBin = $('#resultado_bin')
 let divInstruccionesHex = $('#resultado_hex')
 let botonGuardarBin = $('#guardar_binario')
 let botonGuardarHex = $('#guardar_hexadecimal')
+let botonGuardarCode = $('#guardar_codigo')
 
 // Contenido para los archivos
 let contenidoArchivoBin = ''
@@ -31,7 +32,16 @@ let instrucciones: Instruccion[] = []
 
 // Metodo para convertir
 $('#compilar').on('click', () => {
+	// No hacer nada si no hay codigo
+	if (myCode.getValue() == '') {
+		alert('No hay código')
+		return
+	}
 
+	// Habilitar botones de guardado
+	$('#guardar_binario, #guardar_hexadecimal').removeClass('deshabilitado')
+
+	// Variables
 	instrucciones = []
 	let contenidoCodigo: string = myCode.getValue()
 
@@ -136,6 +146,12 @@ $('#compilar').on('click', () => {
 	botonGuardarHex.attr('href', urlHex)
 	botonGuardarHex.attr('download', fileHex.name)
 
+	// Crear fichero con el codigo ingresado
+	let fileCode = new File([contenidoCodigo], 'CodigoLegv8.txt', {type: 'text/plain;charset=utf-8'})
+	let urlCode = window.URL.createObjectURL(fileCode)
+	botonGuardarCode.attr('href', urlCode)
+	botonGuardarCode.attr('download', fileCode.name)
+
 })
 
 function tipoDeInstruccion(instruccion: string): tipoInstruccion {
@@ -193,4 +209,16 @@ $('#resultado_hex').on('click', '.boton-copiar', (element) => {
 	}).catch(error => {
 		console.log('Error al copiar')
 	})
+})
+
+
+// LIMPIAR CONTNEIDO DEL EDITOR
+$('#limpiar').on('click', () => {
+	myCode.setValue('');
+	// Deshabilitar botones de guardado
+	$('#guardar_binario, #guardar_hexadecimal').addClass('deshabilitado')
+	
+	// Limpiar resultados
+	divInstruccionesBin.empty()
+	divInstruccionesHex.empty()
 })

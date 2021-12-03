@@ -22,7 +22,6 @@ header h1 {
 
 #contenido {
   width: 100%;
-  background-color: aquamarine;
   height: calc(100vmin - 70px);
   display: flex;
 }
@@ -63,20 +62,21 @@ header h1 {
   color: #6d5c9b;
 }
 #contenido #acciones {
-  width: 100px;
+  width: 150px;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   background-color: #8da0c4;
 }
 #contenido #acciones .grupo-botones {
-  width: 100%;
+  width: 120px;
   margin-bottom: 32px;
 }
 #contenido #acciones .grupo-botones button, #contenido #acciones .grupo-botones a {
   display: block;
-  width: 100%;
+  width: 120px;
   background-color: #3d59a1;
   cursor: pointer;
   margin-bottom: 16px;
@@ -86,6 +86,7 @@ header h1 {
   border: none;
   outline: none;
   font-size: 14px;
+  border-radius: 4px;
 }
 #contenido #acciones .grupo-botones button:hover, #contenido #acciones .grupo-botones a:hover {
   background-color: #2d4374;
@@ -93,22 +94,33 @@ header h1 {
 }
 #contenido #acciones .grupo-botones button:active, #contenido #acciones .grupo-botones a:active {
   transform: scale(0.9);
+  transition: all 50ms;
+}
+#contenido #acciones .grupo-botones .deshabilitado {
+  opacity: 0.8;
+  cursor: not-allowed;
+  pointer-events: none;
+  user-select: none;
 }
 #contenido #resultado {
   display: flex;
   flex-direction: column;
-  width: calc(65% - 100px);
+  width: calc(65% - 150px);
   height: 100%;
-  background-color: whitesmoke;
+  background-color: #1a1b26;
+  color: #8da0c4;
 }
 #contenido #resultado #resultado_bin {
   width: 100%;
   height: 50%;
+  border-bottom: 1px solid #8da0c4;
 }
 #contenido #resultado #resultado_hex {
   width: 100%;
   height: 50%;
-  background-color: aquamarine;
+}
+#contenido #resultado #resultado_hex .instruccion {
+  width: 400px;
 }
 #contenido #resultado .resultados {
   display: flex;
@@ -131,10 +143,13 @@ header h1 {
   font-size: 20px;
 }
 #contenido #resultado .resultados .instruccion .boton-copiar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   user-select: none;
   border: none;
   padding: 2px;
-  border-radius: 2px;
+  border-radius: 4px;
   width: 32px;
   cursor: pointer;
   background-color: #3d59a1;
@@ -155,9 +170,6 @@ header h1 {
 }
 #contenido #resultado .resultados .instruccion > span:first-child {
   width: 40px;
-}
-#contenido #resultado #resultado_hex .instruccion {
-  width: 400px;
 }
 
 /*# sourceMappingURL=style.css.map */
