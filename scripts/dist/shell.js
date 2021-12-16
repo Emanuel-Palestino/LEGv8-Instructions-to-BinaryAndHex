@@ -37,14 +37,11 @@
       var sol = stream.sol();
       var ch = stream.next();
 
-      if (ch === '\\') {
-        stream.next();
-        return null;
+      // Omitir corchete que abre
+      if (ch == '[') {
+        return ''
       }
-      if (ch === '\'' || ch === '"' || ch === '`') {
-        state.tokens.unshift(tokenString(ch, ch === "`" ? "quote" : "string"));
-        return tokenize(stream, state);
-      }
+      
       // Reconocer #numero
       if (ch === '#') {
         if (stream.eatWhile(/\d/)) {
@@ -53,32 +50,16 @@
           }
         }
       }
-      if (ch === '$') {
-        state.tokens.unshift(tokenDollar);
-        return tokenize(stream, state);
-      }
-      if (ch === '+' || ch === '=') {
-        return 'operator';
-      }
-      if (ch === '-') {
-        stream.eat('-');
-        stream.eatWhile(/\w/);
-        return 'attribute';
-      }
-      if (ch == "<") {
-        if (stream.match("<<")) return "operator"
-        var heredoc = stream.match(/^<-?\s*['"]?([^'"]*)['"]?/)
-        if (heredoc) {
-          state.tokens.unshift(tokenHeredoc(heredoc[1]))
-          return 'string-2'
+
+      // Reconocer registros xnumero Xnumero
+      if (ch === 'x' || ch === 'X') {
+        if (stream.eatWhile(/\d/)) {
+          if (stream.eol() || !/\w/.test(stream.peek())) {
+            return 'string';
+          }
         }
       }
-      if (/\d/.test(ch)) {
-        stream.eatWhile(/\d/);
-        if (stream.eol() || !/\w/.test(stream.peek())) {
-          return 'number';
-        }
-      }
+
       stream.eatWhile(/[\w-]/);
       var cur = stream.current();
       if (stream.peek() === '=' && /\w+/.test(cur)) return 'def';
@@ -131,14 +112,6 @@
       state.tokens.shift();
       return 'def';
     };
-
-    function tokenHeredoc(delim) {
-      return function (stream, state) {
-        if (stream.sol() && stream.string == delim) state.tokens.shift()
-        stream.skipToEnd()
-        return "string-2"
-      }
-    }
 
     function tokenize(stream, state) {
       return (state.tokens[0] || tokenBase)(stream, state);
