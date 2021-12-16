@@ -45,19 +45,13 @@
         state.tokens.unshift(tokenString(ch, ch === "`" ? "quote" : "string"));
         return tokenize(stream, state);
       }
+      // Reconocer #numero
       if (ch === '#') {
-        if (sol && stream.eat('!')) {
-          stream.skipToEnd();
-          return 'meta'; // 'comment'?
-        }
-        
-        if (sol && stream.eatWhile(/\d/)) {
+        if (stream.eatWhile(/\d/)) {
           if (stream.eol() || !/\w/.test(stream.peek())) {
             return 'number';
           }
         }
-        stream.skipToEnd();
-        return 'comment';
       }
       if (ch === '$') {
         state.tokens.unshift(tokenDollar);
